@@ -1,0 +1,15 @@
+[
+  {
+    "students": [
+      {
+        "Name": "OOO",
+        "Surname": "PPP",
+        "ClassId": 1,
+        "Id": 2
+      }
+    ],
+    "Id": 1,
+    "Name": "PB303",
+    "Limit": 20
+  }
+]
