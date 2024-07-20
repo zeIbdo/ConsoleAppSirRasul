@@ -5,7 +5,7 @@ public class Student
     public string Name { get; set; }
     public string Surname { get; set; }
     public int ClassId { get; set; }
-    static int id;
+    static int id=0;
     public int Id { get; set; }
     public Student(string name, string surname,int classId)
     {

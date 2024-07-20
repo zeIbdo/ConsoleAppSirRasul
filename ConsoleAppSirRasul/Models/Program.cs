@@ -8,19 +8,6 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        //Student student1 = new Student("Iii", "Kkk", 1);
-        //Student student2 = new Student("Iii", "Kkk", 1);
-        //Clasroom clasroom1 = new Clasroom("PB333", "backend");
-        //clasroom1.StudentAdd(student1);
-        //clasroom1.StudentAdd(student2);
-
-        //List<Clasroom> clasrooms = new List<Clasroom> { clasroom1 };
-        //var JSONresult = JsonConvert.SerializeObject(clasrooms, Formatting.Indented);
-        //string path = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\Jsons\classroom.json");
-        //using (StreamWriter sw = new StreamWriter(path))
-        //{
-        //    sw.WriteLine(JSONresult);
-        //}
         Menu();
     }
 
@@ -156,7 +143,7 @@ internal class Program
             Console.WriteLine(item);
         }
 
-        AA:
+        
         try
         {
             Console.WriteLine("Type the id of class which you want to add student to that:");
@@ -175,7 +162,6 @@ internal class Program
         catch (ClassroomNotFoundException e)
         {
             Console.WriteLine(e.Message);
-            goto AA;
         }
         catch(StudentLimitException e) { Console.WriteLine(e.Message); }
     }
@@ -224,7 +210,6 @@ internal class Program
 
     static void DisplayStudentsByClass()
     {
-        AA:
         try
         {
             if (Clasroom.clasrooms.Count == 0)
@@ -250,13 +235,12 @@ internal class Program
         {
 
             Console.WriteLine(e.Message);
-            goto AA;
         }
     }
 
     static void DeleteStudent()
     {
-        AA:
+        
         try
         {
             if (Clasroom.clasrooms.Count == 0)
@@ -291,7 +275,7 @@ internal class Program
         catch (StudentNotFoundException e)
         {
             Console.WriteLine(e.Message);
-            goto AA;
+            
         }
     }
 
