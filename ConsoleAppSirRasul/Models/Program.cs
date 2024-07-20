@@ -33,8 +33,9 @@ internal class Program
             Console.WriteLine("2. Student yarat");
             Console.WriteLine("3. Butun Telebeleri ekrana cixart");
             Console.WriteLine("4. Secilmis sinifdeki telebeleri ekrana cixart");
-            Console.WriteLine("5. Telebe sil");
-            Console.WriteLine("6. Proqramdan cix");
+            Console.WriteLine("5. Telebeni ekrana cixart");
+            Console.WriteLine("6. Telebe sil");
+            Console.WriteLine("7. Proqramdan cix");
             Console.WriteLine("Make a choice:");
             string choice = Console.ReadLine();
 
@@ -51,11 +52,14 @@ internal class Program
                     break;
                 case "4":
                     DisplayStudentsByClass();
-                    break;
+                    break; 
                 case "5":
-                    DeleteStudent();
+                    FindStudent();
                     break;
                 case "6":
+                    DeleteStudent();
+                    break;
+                case "7":
                     return;
                 default:
                     Console.WriteLine("duzgun deyer daxil et");
@@ -95,6 +99,34 @@ internal class Program
         }
     }
 
+    static Student FindId(int id)
+    {
+        foreach (var cla in Clasroom.clasrooms)
+        {
+            foreach (var item in cla.students)
+            {
+                if (item.Id == id)
+                {
+                    return item;
+                }
+            }
+        }
+        throw new StudentNotFoundException("Student not found");
+    }
+    static void FindStudent()
+    {
+        try
+        {
+            Console.WriteLine("Write id of student which you want to see:");
+            DisplayAllStudents();
+            int id = GetValidId();
+            Console.WriteLine(FindId(id));
+        }
+        catch (StudentNotFoundException e)
+        {
+            Console.WriteLine(e.Message);
+        }
+    }
     static string GetValidClassType()
     {
         while (true)
@@ -128,7 +160,7 @@ internal class Program
         try
         {
             Console.WriteLine("Type the id of class which you want to add student to that:");
-            int idAdd = GetValidClassroomId();
+            int idAdd = GetValidId();
             Clasroom classToAdd = FindClassroomById(idAdd);//Clasroom.clasrooms.First(c => c.Id == idAdd);
             Student student = new(studentName, studentSurname, Clasroom.clasrooms.First(c => c.Id == idAdd).Id);
             classToAdd.StudentAdd(student);
@@ -161,7 +193,7 @@ internal class Program
         }
     }
 
-    static int GetValidClassroomId()
+    static int GetValidId()
     {
         while (true)
         {
@@ -207,7 +239,7 @@ internal class Program
             }
 
             Console.WriteLine("Type the id of the class whose students you want to see:");
-            int id = GetValidClassroomId();
+            int id = GetValidId();
 
             foreach (var student in FindClassroomById(id).GetStudents())
             {
@@ -242,7 +274,7 @@ internal class Program
             }
 
             Console.WriteLine("Type the id of the student you want to remove:");
-            int idRemove = GetValidStudentId();
+            int idRemove = GetValidId();
 
             foreach (var cla in Clasroom.clasrooms)
             {
@@ -263,17 +295,7 @@ internal class Program
         }
     }
 
-    static int GetValidStudentId()
-    {
-        while (true)
-        {
-            string strRemove = Console.ReadLine();
-            if (int.TryParse(strRemove, out int idRemove) && idRemove > 0)
-                return idRemove;
-
-            Console.WriteLine("id must be greater than 0");
-        }
-    }
+   
     static Clasroom FindClassroomById(int id)
     {
         foreach (Clasroom classroom in Clasroom.clasrooms)
@@ -282,4 +304,5 @@ internal class Program
         }
         throw new ClassroomNotFoundException("class not found");
     }
+
 }

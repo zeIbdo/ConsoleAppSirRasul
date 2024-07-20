@@ -55,17 +55,7 @@ public class Clasroom
         }
         return studentsInClass;
     }
-    public Student FindId(int id)
-    {
-        foreach (var item in students)
-        {
-            if (item.Id == id)
-            {
-                return item;
-            }
-        }
-        throw new StudentNotFoundException("Student not found");
-    }
+   
     public bool Delete(int id)
     {
         var student = students.Find(s => s.Id == id);

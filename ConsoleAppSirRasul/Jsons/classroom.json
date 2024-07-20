@@ -2,14 +2,14 @@
   {
     "students": [
       {
-        "Name": "OOO",
-        "Surname": "PPP",
+        "Name": "III",
+        "Surname": "IIII",
         "ClassId": 1,
-        "Id": 2
+        "Id": 1
       }
     ],
     "Id": 1,
-    "Name": "PB303",
+    "Name": "PB333",
     "Limit": 20
   }
 ]
