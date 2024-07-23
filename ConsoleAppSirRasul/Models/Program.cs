@@ -104,10 +104,22 @@ internal class Program
     {
         try
         {
-            Console.WriteLine("Write id of student which you want to see:");
-            DisplayAllStudents();
-            int id = GetValidId();
-            Console.WriteLine(FindId(id));
+            if (Clasroom.clasrooms.Count == 0) {
+                Console.WriteLine("no classrooms created");
+                return;
+                    }
+            else {
+                int count=0;
+                foreach(var c in Clasroom.clasrooms) { count += c.GetStudents().Count; };
+                if (count == 0) { Console.WriteLine("no students created"); return; }
+                else
+                {
+                    Console.WriteLine("Write id of student which you want to see:");
+                    DisplayAllStudents();
+                    int id = GetValidId();
+                    Console.WriteLine(FindId(id));
+                }
+            }
         }
         catch (StudentNotFoundException e)
         {
@@ -134,7 +146,6 @@ internal class Program
             Console.WriteLine("Create class before student");
             return;
         }
-
         string studentName = GetValidName("Enter name of student:");
         string studentSurname = GetValidName("Enter surname of student:");
 
@@ -198,7 +209,9 @@ internal class Program
             Console.WriteLine("No classrooms created");
             return;
         }
-
+        int count = 0;
+        foreach (var c in Clasroom.clasrooms) { count += c.GetStudents().Count; };
+        if (count == 0) { Console.WriteLine("no students created"); return; }
         foreach (var cla in Clasroom.clasrooms)
         {
             foreach (var student in cla.GetStudents())
@@ -217,18 +230,23 @@ internal class Program
                 Console.WriteLine("No classrooms created");
                 return;
             }
-
-            foreach (var item in Clasroom.clasrooms)
+            else
             {
-                Console.WriteLine(item);
-            }
+                int count = 0;
+                foreach (var c in Clasroom.clasrooms) { count += c.GetStudents().Count; };
+                if (count == 0) { Console.WriteLine("no students created"); return; }
+                foreach (var item in Clasroom.clasrooms)
+                {
+                    Console.WriteLine(item);
+                }
 
-            Console.WriteLine("Type the id of the class whose students you want to see:");
-            int id = GetValidId();
+                Console.WriteLine("Type the id of the class whose students you want to see:");
+                int id = GetValidId();
 
-            foreach (var student in FindClassroomById(id).GetStudents())
-            {
-                Console.WriteLine(student);
+                foreach (var student in FindClassroomById(id).GetStudents())
+                {
+                    Console.WriteLine(student);
+                }
             }
         }
         catch (ClassroomNotFoundException e)
@@ -248,28 +266,33 @@ internal class Program
                 Console.WriteLine("No classrooms created");
                 return;
             }
-
-            foreach (var cla in Clasroom.clasrooms)
+            else
             {
-                foreach (var student in cla.GetStudents())
+                int count = 0;
+                foreach (var c in Clasroom.clasrooms) { count += c.GetStudents().Count; };
+                if (count == 0) { Console.WriteLine("no students created"); return; }
+                foreach (var cla in Clasroom.clasrooms)
                 {
-                    Console.WriteLine(student);
+                    foreach (var student in cla.GetStudents())
+                    {
+                        Console.WriteLine(student);
+                    }
                 }
-            }
 
-            Console.WriteLine("Type the id of the student you want to remove:");
-            int idRemove = GetValidId();
+                Console.WriteLine("Type the id of the student you want to remove:");
+                int idRemove = GetValidId();
 
-            foreach (var cla in Clasroom.clasrooms)
-            {
-                if (cla.Delete(idRemove))
-                    break;
-            }
-            var JSONresult = JsonConvert.SerializeObject(Clasroom.clasrooms, Formatting.Indented);
-            string path = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\Jsons\classroom.json");
-            using (StreamWriter sw = new StreamWriter(path))
-            {
-                sw.WriteLine(JSONresult);
+                foreach (var cla in Clasroom.clasrooms)
+                {
+                    if (cla.Delete(idRemove))
+                        break;
+                }
+                var JSONresult = JsonConvert.SerializeObject(Clasroom.clasrooms, Formatting.Indented);
+                string path = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\Jsons\classroom.json");
+                using (StreamWriter sw = new StreamWriter(path))
+                {
+                    sw.WriteLine(JSONresult);
+                }
             }
         }
         catch (StudentNotFoundException e)
@@ -278,6 +301,7 @@ internal class Program
             
         }
     }
+
 
    
     static Clasroom FindClassroomById(int id)
