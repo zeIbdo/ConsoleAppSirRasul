@@ -3,11 +3,14 @@ using ConsoleAppSirRasul.Extensions;
 using ConsoleAppSirRasul.Helpers;
 using ConsoleAppSirRasul.Models;
 using Newtonsoft.Json;
+using System.IO;
 
 internal class Program
 {
+
     static void Main(string[] args)
     {
+        LoadData();
         Menu();
     }
 
@@ -56,12 +59,34 @@ internal class Program
             Console.ReadKey();
         }
     }
+    static void LoadData()
+    {
+        string jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\Jsons\classroom.json");
 
+        if (File.Exists(jsonFilePath))
+        {
+            var jsonData = File.ReadAllText(jsonFilePath);
+            var deserializedClassrooms = JsonConvert.DeserializeObject<List<Clasroom>>(jsonData) ?? new List<Clasroom>();
+            Clasroom.clasrooms = deserializedClassrooms;
+            Clasroom.ResetIdCounter(); 
+            foreach (var classroom in Clasroom.clasrooms)
+            {
+                if (classroom.students == null) 
+                {
+                    classroom.students = new List<Student>();
+                }
+                foreach (var student in classroom.GetStudents())
+                {
+                    Student.UpdateIdCounter(student.Id); 
+                }
+            }
+        }
+    }
     static void CreateClassroom()
     {
         string classroomName = GetValidClassName();
+        if (Clasroom.SameName(classroomName) == false) { Console.WriteLine("Eyni ad ile class yaradila bilmez"); return; }
         string classType = GetValidClassType();
-
         Clasroom nowUsingClasroom = new(classroomName, classType);
         Clasroom.clasrooms.Add(nowUsingClasroom);
         var JSONresult = JsonConvert.SerializeObject(Clasroom.clasrooms, Formatting.Indented);
@@ -301,7 +326,6 @@ internal class Program
             
         }
     }
-
 
    
     static Clasroom FindClassroomById(int id)

@@ -1,4 +1,6 @@
-﻿namespace ConsoleAppSirRasul.Models;
+﻿using System.Diagnostics.Metrics;
+
+namespace ConsoleAppSirRasul.Models;
 
 public class Student
 {
@@ -7,6 +9,8 @@ public class Student
     public int ClassId { get; set; }
     static int id=0;
     public int Id { get; set; }
+    public Student() { }
+
     public Student(string name, string surname,int classId)
     {
         
@@ -19,4 +23,12 @@ public class Student
     {
         return $"{Id} {Name} {Surname}";
     }
+    public static void UpdateIdCounter(int idC)
+    {
+        if (idC > id)
+        {
+            id = idC;
+        }
+    }
+
 }
